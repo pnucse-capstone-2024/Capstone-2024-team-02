@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #4e3fc2; 
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffd200; 
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 80px 0 20px; 
+        }
+
+        .model-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #2d2470;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #3e2fa6;
+        }
+
+        #scene {
+            position: absolute;
+            left: 80px;
+            top: 100px;
+            height: 400px;
+            width: 429px;
+        }
+
+        .override-height {
+            height: 450px !important;
+        }
+        #user-select-none .svg-container{
+            position: absolute;
+            left: 80px;
+            top: 100px;
+            height: 400px;
+            width: 429px;
+        }
+
+        .navbar {
+            background-color: #4e3fc2;
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .navbar .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #3a29a0;
+        }
+
+
+        @media screen and (max-width: 700px) {
+            .navbar .navbar-links {
+                display: none;
+            }
+
+            .navbar.responsive .navbar-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.responsive .navbar-links a {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar a.icon {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar" id="myNavbar">
+            <div class="logo"><a href="/home">HeartMRI</a></div>
+            <nav class="navbar-links">
+                <a href="{{ url_for('upload') }}">Upload</a>
+                <a href="{{ url_for('video') }}">Video</a>
+                <a href="{{ url_for('interactive') }}">Interactive</a>
+                <a href="{{ url_for('segmentation') }}">3D Segmentation</a>
+                <a href="{{ url_for('profile') }}">My Page</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <div style="margin-top: 300px;background-color: #4e3fc2;" class="model-container">
+        <div>
+            {{ graph_html | safe }}
+        </div>
+        <a href="/upload_nifti" class="btn">Upload Another File</a>
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const sceneElement = document.getElementById('scene');
+            if (sceneElement) {
+                sceneElement.classList.add('override-height'); 
+                const canvas = sceneElement.querySelector('canvas');
+                if (canvas) {
+                    canvas.style.height = '500px'; 
+                }
+            }
+        };
+        function toggleMenu() {
+                var navbar = document.getElementById("myNavbar");
+                if (navbar.className === "navbar") {
+                    navbar.className += " responsive";
+                } else {
+                    navbar.className = "navbar";
+                }
+            }
+
+        
+    </script>
+</body>
+</html>

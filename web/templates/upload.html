@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload NIFTI Files</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+        }
+
+
+        .logo a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2vw;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #ffd200;
+            transition: color 0.3s ease;
+        }
+
+        .upload-section {
+            text-align: center;
+            padding: 100px 20px;
+            align-items: center;
+        }
+
+        .upload-section h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .upload-section p {
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: #b0b0b0;
+        }
+
+        .upload-form {
+            background-color: #1d1b3a;
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .upload-form label {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: block;
+            text-align: left;
+        }
+
+        .upload-form input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .upload-form input[type="file"],
+        .upload-form input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .upload-form input[type="file"] {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .upload-form input[type="submit"] {
+            background-color: #4e3fc2;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-form input[type="submit"]:hover {
+            background-color: #4e3fc2;
+        }
+
+        .button-container {
+            margin-top: 30px;
+            margin-inline:auto;
+        }
+
+        .action-button {
+            padding: 15px 30px;
+            background-color: #4e3fc2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #4e3fc2;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .success-message {
+            color: #4e3fc2;
+        }
+
+        .danger-message {
+            color: #ff4d4d;
+        }
+
+        @media (max-width: 768px) {
+            .upload-section {
+                padding: 60px 20px;
+            }
+
+            .upload-form {
+                padding: 30px;
+            }
+
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                width: 80%;
+                align-items: center;
+            }
+
+            .action-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .dropdown-section {
+            margin-top: 20px;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .dropdown-label {
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .custom-dropdown {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #333;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            font-size: 12px;
+            width: 100%;
+            background-color: #1d1b3a;
+            color: white;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-options div {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+
+        .dropdown-options div:hover {
+            background-color: #4e3fc2;
+        }
+
+        .dropdown-options div:last-child {
+            border-bottom: none;
+        }
+
+        .custom-dropdown:hover .dropdown-options {
+            display: block;
+        }
+
+        .dropdown-options div:hover::after {
+            content: attr(data-fulltext);
+            display: inline-block;
+            color: #ffd200;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        .submit-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #00d0ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #008bb5;
+        }
+
+        .navbar {
+            background-color: #4e3fc2;
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .navbar .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #3a29a0;
+        }
+
+        .success-message {
+            color: goldenrod; 
+            font-weight: bold; 
+        }
+        .flashes {
+            list-style-type: none; 
+            padding: 0; 
+            margin: 0; 
+        }
+
+
+        @media screen and (max-width: 700px) {
+            .navbar .navbar-links {
+                display: none;
+            }
+
+            .navbar.responsive .navbar-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.responsive .navbar-links a {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar a.icon {
+                display: block;
+            }
+        }
+        
+    </style>
+
+    <script>
+        function selectModel(modelName) {
+            document.getElementById('selected_model').value = modelName;
+            document.getElementById('model-dropdown').innerText = modelName; 
+        }
+
+        function validateForm() {
+            const selectedModel = document.getElementById('selected_model').value;
+            if (!selectedModel) {
+                alert("Please select a model type.");
+                return false; 
+            }
+            return true; 
+        }
+    </script>
+
+</head>
+<body>
+
+    <header>
+        <div class="navbar" id="myNavbar">
+            <div class="logo"><a href="/home">HeartMRI</a></div>
+            <nav class="navbar-links">
+                <a href="/upload_nifti">3D Model</a>
+                <a href="{{ url_for('video') }}">Video</a>
+                <a href="{{ url_for('interactive') }}">Interactive</a>
+                <a href="{{ url_for('segmentation') }}">3D Segmentation</a>
+                <a href="{{ url_for('profile') }}">My Page</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+
+    <section class="upload-section">
+        <h1>Upload NIFTI Files</h1>
+        <p>Please upload your NIFTI (.nii or .nii.gz) files. They will be saved in our secure uploads folder.</p>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }} {% if category == 'success' %}success-message{% endif %}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    
+
+
+               <form method="POST" enctype="multipart/form-data" class="upload-form" onsubmit="return validateForm()">
+
+                <label>Select Axis:</label><br>
+    
+                <div style="display: inline-flex; align-items: center; gap: 10px;">
+                    <input type="radio" id="sa" name="axis" value="SA" required>
+                    <label for="sa">SA</label>
+                </div>
+                <div style="display: inline-flex; align-items: center; gap: 10px; margin-left: 20px;">
+                    <input type="radio" id="la" name="axis" value="LA" required>
+                    <label for="la">LA</label>
+                </div><br><br>
+    
+                <label for="ed_file">Upload ED file:</label>
+                <input type="file" id="ed_file" name="ed_file" required><br>
+    
+                <label for="es_file">Upload ES file:</label>
+                <input type="file" id="es_file" name="es_file" required><br>
+    
+                <label for="cine_file">Upload Cine file:</label>
+                <input type="file" id="cine_file" name="cine_file" required><br>
+    
+                <div class="dropdown-section">
+                    <label class="dropdown-label" for="model_type">Select Model Type:</label>
+    
+                    <div class="custom-dropdown" id="model-dropdown">
+                        Choose Model
+                        <div class="dropdown-options">
+                            <div data-fulltext="A model trained with supervised learning method." onclick="selectModel('Model Supervised')">
+                                Model Supervised
+                            </div>
+                            <div data-fulltext="A model trained with semi-supervised learning method." onclick="selectModel('Model Semi-supervised')">
+                                Model Semi-supervised
+                            </div>
+                            <div data-fulltext="A model trained with domain adversarial neural network." onclick="selectModel('Model DANN')">
+                                Model DANN
+                            </div>
+                        </div>
+                    </div>
+    
+                    <input type="hidden" id="selected_model" name="model_type">
+                </div>
+    
+                <input type="submit" value="Submit Data" class="submit-button">
+            </form>
+
+        <div class="button-container">
+            <a href="/upload_nifti" class="action-button">Make 3D Model</a>
+            <a href="/video" class="action-button">Video</a>
+            <a href="/interactive" class="action-button">Interactive Page</a>
+        </div>     
+    </section>
+    <script>
+        function toggleMenu() {
+            var navbar = document.getElementById("myNavbar");
+            if (navbar.className === "navbar") {
+                navbar.className += " responsive";
+            } else {
+                navbar.className = "navbar";
+            }
+        }
+    </script>
+</body>
+</html>

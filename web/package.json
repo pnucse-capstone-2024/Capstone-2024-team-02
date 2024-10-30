@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@cornerstonejs/core": "^1.86.0",
+    "@cornerstonejs/streaming-image-volume-loader": "^1.86.0",
+    "@cornerstonejs/tools": "^1.86.0"
+  }
+}

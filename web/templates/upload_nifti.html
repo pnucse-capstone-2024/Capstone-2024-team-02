@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload NIfTI File</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+        }
+
+        .navbar {
+            background-color: #4e3fc2;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #ffd200;
+            transition: color 0.3s ease;
+        }
+
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #4e3fc2;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            padding: 12px 25px;
+            background-color: #ffd200;
+            color: black;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ffc107;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #4e3fc2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #6c757d;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            form {
+                padding: 20px;
+            }
+
+            input[type="submit"], .btn {
+                padding: 10px 20px;
+            }
+        }
+        .navbar .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #3a29a0;
+        }
+
+        @media screen and (max-width: 700px) {
+            .navbar .navbar-links {
+                display: none;
+            }
+
+            .navbar.responsive .navbar-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.responsive .navbar-links a {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar a.icon {
+                display: block;
+            }
+            .image-container {
+                display: none;
+            }
+
+
+            .service-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .service-box {
+                width: 100%; 
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar" id="myNavbar">
+            <div class="logo"><a href="/home">HeartMRI</a></div>
+            <nav class="navbar-links">
+                <a href="{{ url_for('upload') }}">Upload</a>
+                <a href="{{ url_for('video') }}">Video</a>
+                <a href="{{ url_for('interactive') }}">Interactive</a>
+                <a href="{{ url_for('segmentation') }}">3D Segmentation</a>
+                <a href="{{ url_for('profile') }}">My Page</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="upload-container">
+        <h1>Upload Your NIfTI File</h1>
+        <form action="/upload_nifti" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".nii.gz" required>
+            <input type="submit" value="Upload">
+        </form>
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+    <script>
+            function toggleMenu() {
+                var navbar = document.getElementById("myNavbar");
+                if (navbar.className === "navbar") {
+                    navbar.className += " responsive";
+                } else {
+                    navbar.className = "navbar";
+                }
+            }
+    </script>
+</body>
+</html>
