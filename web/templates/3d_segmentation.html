@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Heart MRI Segmentation</title>
+    <script src="https://unpkg.com/vtk.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: white;
+            margin: 0; 
+        }
+
+        #vtk-container {
+            width: 100%;
+            max-width: 800px; 
+            max-height: 400px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            background-color: #1d1b3a; 
+        }
+
+        .legend {
+            text-align: left;
+            margin: 2vh;
+            margin-bottom: 0px;
+        }
+
+        .legend h2 {
+            font-size: 20px;
+            color: white; 
+            margin: 2vh;
+            margin-bottom: 0;
+        }
+
+        .legend p {
+            font-size: 18px;
+            color: #b0b0b0;
+            margin: 5px;
+            float: left;
+        }
+
+        .red-box, .green-box, .blue-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .red-box {
+            background-color: red;
+        }
+
+        .green-box {
+            background-color: green;
+        }
+
+        .blue-box {
+            background-color: blue;
+        }
+
+        @media screen and (max-width: 700px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .legend h2 {
+                font-size: 18px;
+            }
+
+            .legend p {
+                font-size: 16px;
+            }
+
+            #vtk-container {
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>3D Heart MRI Segmentation</h1>
+    <div id="vtk-container">
+        <div class="legend">
+            <h2 style="margin-left: 10px;"> Legend</h2>
+            <p><span class="red-box"></span> Left Ventricular </p>
+            <p><span class="green-box"></span> Myocardium </p>
+            <p><span class="blue-box"></span> Right Ventricular</p>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        const fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstance({
+            background: [1.0, 1.0, 1.0],  
+            rootContainer: document.getElementById('vtk-container'),
+            containerStyle: {
+                height: '100%',
+                width: '100%',
+                position: 'relative',
+            },
+        });
+    
+        const renderer = fullScreenRenderer.getRenderer();
+        const renderWindow = fullScreenRenderer.getRenderWindow();
+        const interactor = fullScreenRenderer.getInteractor();
+    
+        loadSTL('001_SA_ES_gt_Segment_1.stl', [1.0, 0.0, 0.0]);  
+        loadSTL('001_SA_ES_gt_Segment_2.stl', [0.0, 1.0, 0.0]);  
+        loadSTL('001_SA_ES_gt_Segment_3.stl', [0.0, 0.0, 1.0]);  
+
+        function loadSTL(fileName, color) {
+            const reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
+            const mapper = vtk.Rendering.Core.vtkMapper.newInstance();
+            const actor = vtk.Rendering.Core.vtkActor.newInstance();
+    
+            reader.setUrl(`/static/stl/${fileName}`).then(() => {
+                console.log(`${fileName} loaded successfully.`);
+    
+
+                mapper.setInputConnection(reader.getOutputPort());
+                mapper.setScalarVisibility(false);
+                actor.setMapper(mapper);
+    
+
+                actor.getProperty().setColor(color);
+                actor.getProperty().setOpacity(1.0);
+    
+
+                renderer.addActor(actor);
+                renderer.resetCamera(); 
+                renderWindow.render();  
+            }).catch(error => {
+                console.error(`Error loading ${fileName}:`, error); 
+            });
+        }
+
+        interactor.initialize();
+        interactor.bindEvents(document.getElementById('vtk-container'));
+    </script> 
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart MRI Segmentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+        }
+
+        .logo a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: 500;
+            width: fit-content;
+        }
+
+        .navbar ul li a:hover {
+            color: #ffd200;
+            transition: color 0.3s ease;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            padding: 100px;
+            padding-top: 0;
+            height: 100vh;
+        }
+
+        .content {
+            max-width: 50%;
+            padding-top: 150px;
+        }
+
+        .content h1 {
+            font-size: 12%;
+            margin-bottom: 20px;
+            min-inline-size: 200px;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            font-size: 1.5vw;
+            min-inline-size: 300px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4e3fc2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .image-container img {
+            max-width: 40vw;
+        }
+
+        .services {
+            text-align: center;
+            padding: 50px;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+
+        .services h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .services p {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .section-header.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .service-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .service-box i {
+            font-size: 40px;
+            color: #4e3fc2;
+            margin-bottom: 15px;
+        }
+
+        .service-box h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .service-box p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .view-all {
+            background-color: #4e3fc2;
+            color: white;
+        }
+
+        .highlight {
+            color: #4e3fc2;
+        }
+
+        .about-us {
+            display: flex;
+            justify-content: space-between;
+            padding: 100px;
+            background-color: #0f1943;
+            color: white;
+        }
+
+        .about-content {
+            max-width: 50%;
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+        }
+
+        .about-content h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .navbar {
+            background-color: #4e3fc2;
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+        }
+
+        .content {
+            max-width: 60%;
+            padding: 20px;
+        }
+
+        .content h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .image-container {
+            max-width: 35%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .navbar .navbar-links {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+            align-items: flex-end;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #3a29a0;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .navbar .navbar-links {
+                display: none;
+            }
+
+            .navbar.responsive .navbar-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.responsive .navbar-links a {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar a.icon {
+                display: block;
+            }
+
+            .image-container {
+                display: none;
+            }
+
+            .service-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .service-box {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .content {
+                max-width: 100%;
+                text-align: center;
+                padding-top: 15vh;
+            }
+
+            .image-container {
+                max-width: 100%;
+                padding: 10px 0;
+            }
+
+            .content h1 {
+                font-size: 2em;
+            }
+
+            .content p {
+                font-size: 1em;
+            }
+
+            .about-us {
+                padding: 20px;
+            }
+
+            .about-content {
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            .about-content h2 {
+                font-size: 2em;
+            }
+
+            .about-content h3 {
+                font-size: 1.5em;
+            }
+
+            .about-content p {
+                font-size: 1em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar" id="myNavbar">
+            <div class="logo"><a href="#">HeartMRI</a></div>
+            <nav class="navbar-links">
+                {% if email %}
+                    <a href="{{ url_for('upload') }}">Upload</a>
+                    <a href="/upload_nifti">3D Model</a>
+                    <a href="{{ url_for('video') }}">Video</a>
+                    <a href="{{ url_for('interactive') }}">Interactive</a>
+                    <a href="{{ url_for('segmentation') }}">3D Segmentation</a>
+                    <a href="{{ url_for('profile') }}">My Page</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login/Signup</a>
+                {% endif %}
+            </nav>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        
+
+    </header>
+    
+
+    <section class="hero">
+        <div class="content">
+            <h1>Heart MRI Segmentation</h1>
+            <p>Upload your NIFTI files and let our advanced model provide precise segmentation of heart MRIs.</p>
+            <a href="{{ url_for('upload') }}" class="btn">Upload Your File</a>
+        </div>
+        <div class="image-container">
+            <img src="/static/images/heart.webp" >
+        </div>
+    </section>
+    
+    <section class="services">
+        <div class="section-header">
+            <h2>How to <span class="highlight">Use Our Platform</span></h2>
+            <p>Follow these simple steps to get started with heart MRI segmentation.</p>
+        </div>
+        
+        <div class="service-container">
+            <div class="service-box">
+                <i class="fas fa-sign-in-alt"></i>
+                <h3>Step 1: Login</h3>
+                <p>Create an account or login to access our advanced heart MRI segmentation services.</p>
+            </div>
+            <div class="service-box">
+                <i class="fas fa-upload"></i>
+                <h3>Step 2: Upload .nii File</h3>
+                <p>Upload your NIFTI (.nii) heart MRI file to begin the segmentation process.</p>
+            </div>
+            <div class="service-box">
+                <i class="fas fa-heartbeat"></i>
+                <h3>Step 3: Segmentation</h3>
+                <p>Our AI model will process the MRI and provide detailed segmented images of your heart.</p>
+            </div>
+        </div>
+    
+        <div class="service-container">
+            <div class="service-box">
+                <i class="fas fa-play-circle"></i>
+                <h3>Step 4: Heart MRI Animation</h3>
+                <p>View an animated visualization of your segmented heart MRI for better insights.</p>
+            </div>
+            <div class="service-box">
+                <i class="fas fa-hand-pointer"></i>
+                <h3>Step 5: Interactive Heart Segments</h3>
+                <p>Explore an interactive page where you can learn more about your heart's structure and segments.</p>
+            </div>
+            <div class="service-box">
+                <i class="fas fa-cloud-download-alt"></i>
+                <h3>Step 6: Secure Data Storage</h3>
+                <p>Safely store your heart MRI data on our secure platform and download it anytime for future reference.</p>
+            </div>
+        </div>
+        
+        <a href="#" class="btn view-all">Start Now</a>
+    </section>
+    
+
+    <section class="about-us">
+        <div class="about-content">
+            <h2>About <span class="highlight">Us</span></h2>
+            <p>At HeartMRI, we are dedicated to leveraging cutting-edge technology for better heart health diagnostics.</p>
+            <h3>Our Mission</h3>
+            <p>We aim to provide a platform that allows users to upload MRI files, receive valuable insights, and store their health data securely.</p>
+            <a href="{{ url_for('upload') }}" class="btn">Upload Your File</a>
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const serviceContainers = document.querySelectorAll('.service-container');
+        const sectionHeader = document.querySelector('.section-header'); 
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, {
+            threshold: 0.3 
+        });
+
+        observer.observe(sectionHeader);
+
+        serviceContainers.forEach(container => {
+            observer.observe(container);
+        });
+    });
+    function toggleMenu() {
+        var navbar = document.getElementById("myNavbar");
+        if (navbar.className === "navbar") {
+            navbar.className += " responsive";
+        } else {
+            navbar.className = "navbar";
+        }
+    }
+
+    </script>
+</body>
+</html>

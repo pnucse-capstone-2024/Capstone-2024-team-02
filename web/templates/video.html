@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart MRI Videos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #4e3fc2;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 16px;
+
+        }
+
+        nav ul li a:hover {
+            color: #ffd200;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        .description {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .description h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #4e3fc2;
+            padding-bottom: 5px;
+        }
+
+        .description p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form label {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        form input[type="file"] {
+            padding: 10px;
+            border: 1px solid #4e3fc2;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 250px; 
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background-color: #4e3fc2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #00a8d4;
+            transform: scale(1.05); 
+        }
+
+        .video-list {
+            width: 100%;
+        }
+
+        .video-list a {
+            display: block;
+            margin: 10px 0;
+            color: #4e3fc2;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .video-list a:hover {
+            color: #ffd200; 
+            text-decoration: underline;
+        }
+
+        .video-container {
+            max-width: 100%;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
+            border-radius: 8px; 
+            overflow: hidden; 
+        }
+
+        iframe {
+            width: 60vh;
+            height: 60vh;
+            border: none;
+        }
+
+         .navbar .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #3a29a0;
+        }
+
+
+        @media screen and (max-width: 700px) {
+            .navbar .navbar-links {
+                display: none;
+            }
+
+            .navbar.responsive .navbar-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.responsive .navbar-links a {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar a.icon {
+                display: block;
+            }
+            .image-container {
+                display: none;
+            }
+            .video-list{
+                size: 10px;
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar" id="myNavbar">
+            <div class="logo"><a href="/home">HeartMRI</a></div>
+            <nav class="navbar-links">
+                <a href="{{ url_for('upload') }}">Upload</a>
+                <a href="/upload_nifti">3D Model</a>
+                <a href="{{ url_for('interactive') }}">Interactive</a>
+                <a href="{{ url_for('segmentation') }}">3D Segmentation</a>
+                <a href="{{ url_for('profile') }}">My Page</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+
+    <section class="video-section">
+        <div class="description">
+            <h2>Your Videos</h2>
+            <p>Select a video below to play.</p>
+        </div>
+
+        <div class="video-list" style="align-items: center; width: auto;">
+            {% for video in videos %}
+                <a href="#" class="video-link" data-filename="{{ video }}">{{ video }}</a>
+            {% endfor %}
+        </div>
+
+        <form action="{{ url_for('create_animation') }}" method="POST" enctype="multipart/form-data">
+            <label for="nifti_file">Or choose a NIfTI file, to make new video:</label>
+            <input type="file" id="nifti_file" name="nifti_file" accept=".nii,.nii.gz" required>
+            <button type="submit" class="btn">Convert to Animation</button>
+        </form>
+
+        <div class="video-container" style="display: none;"> 
+            <video id="video-player" width="640" height="480" controls loop>
+                <source id="video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <script>
+        const videoPlayer = document.getElementById('video-player');
+        const videoSource = document.getElementById('video-source');
+        const videoLinks = document.querySelectorAll('.video-link');
+        const videoContainer = document.querySelector('.video-container'); 
+
+        videoLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const filename = this.getAttribute('data-filename');
+                videoSource.src = "{{ url_for('static', filename='videos/') }}" + filename; 
+                videoPlayer.load(); 
+                videoPlayer.play(); 
+                videoContainer.style.display = 'block'; 
+            });
+        });
+
+        function toggleMenu() {
+            var navbar = document.getElementById("myNavbar");
+            if (navbar.className === "navbar") {
+                navbar.className += " responsive";
+            } else {
+                navbar.className = "navbar";
+            }
+        }
+    </script>
+</body>

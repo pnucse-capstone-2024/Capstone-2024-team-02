@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #141041;
+            color: white;
+        }
+
+        .navbar {
+            background-color: #4e3fc2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            gap:20px;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #ffd200;
+        }
+
+        nav ul li span {
+            font-weight: bold;
+        }
+
+        .profile-container {
+            background-color: #1d1a55;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            padding: 40px;
+            margin: 50px auto;
+            text-align: center;
+            color: white;
+        }
+
+        .profile-container h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .profile-details p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        button{
+            margin:0;
+            margin-block: 10px;
+        }
+        input{
+            margin:0;
+        }
+
+        .profile-details strong {
+            color: #ffd200;
+        }
+
+    
+
+        .action-buttons input[type="file"],
+        .action-buttons input[type="password"] {
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .action-buttons button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4e3fc2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .action-buttons button:hover {
+            background-color: #4739b0;
+        }
+
+        .uploaded-files {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .uploaded-files a {
+            display: block;
+            color: #00d0ff;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .uploaded-files a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-delete-button {
+            background-color: #ff4f4f;
+        }
+
+        .profile-delete-button:hover {
+            background-color: #cc3e3e;
+        }
+
+        .navbar .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar .navbar-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links a:hover {
+            background-color: #3a29a0;
+        }
+
+
+        @media screen and (max-width: 700px) {
+            .navbar .navbar-links {
+                display: none;
+            }
+
+            .navbar.responsive .navbar-links {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.responsive .navbar-links a {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .navbar a.icon {
+                display: block;
+            }
+            .image-container {
+                display: none;
+            }
+
+            .service-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .service-box {
+                width: 100%; 
+                margin-bottom: 20px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar" id="myNavbar">
+            <div class="logo"><a href="/home">HeartMRI</a></div>
+            <nav class="navbar-links">
+                <a href="{{ url_for('upload') }}">Upload</a>
+                <a href="/upload_nifti">3D Model</a>
+                <a href="{{ url_for('video') }}">Video</a>
+                <a href="{{ url_for('interactive') }}">Interactive</a>
+                <a href="{{ url_for('segmentation') }}">3D Segmentation</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <h1>User Profile</h1>
+        <div class="profile-picture">
+            <img src="{{ url_for('uploaded_file', filename=current_user.profile_pic or '49.png') }}" alt="Profile Picture" class="profile-image">
+        </div>
+        <div class="profile-details">
+            <p><strong>Name:</strong> {{ current_user.full_name }}</p>
+            <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <p><strong>Date of Birth:</strong> {{ current_user.dob }}</p>
+            <p><strong>Gender:</strong> {{ current_user.gender }}</p>
+            <p><strong>Medical Info:</strong> {{ current_user.medical_info }}</p>
+        </div>
+
+        <div class="action-buttons">
+            <form action="{{ url_for('upload_photo') }}" method="POST" enctype="multipart/form-data">
+                <input type="file" name="profile_photo" accept="image/*" required>
+                <button type="submit">Upload Profile Photo</button>
+            </form>            
+            <form action="{{ url_for('change_password') }}" method="POST">
+                <input type="password" name="new_password" placeholder="New Password" required>
+                <button type="submit">Change Password</button>
+            </form>
+            <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account?');">
+                <button type="submit" class="profile-delete-button">Delete Account</button>
+            </form>
+        </div>
+
+        <h2>Uploaded Files</h2>
+        <div class="uploaded-files">
+            {% for file in uploaded_files %}
+                <a href="{{ url_for('download_file', filename=file) }}">{{ file }}</a>
+            {% else %}
+                <p>No files uploaded yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var navbar = document.getElementById("myNavbar");
+            if (navbar.className === "navbar") {
+                navbar.className += " responsive";
+            } else {
+                navbar.className = "navbar";
+            }
+        }
+    </script>
+</body>
+</html>
