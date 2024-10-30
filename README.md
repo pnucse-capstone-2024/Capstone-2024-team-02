@@ -79,12 +79,10 @@ Watch the project introduction and demo video, which demonstrates MRI segmentati
 
 ## 5. Team Introduction
 
-| **Name**               | **Role**                       | **Key Responsibilities**                                                                                                                                              |
-|------------------------|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **이슬람 살리흐**      | Data Engineer & Backend Dev    | - Preprocessed and visualized MRI data for training. <br> - Implemented post-processing for cleaner segmentation output. <br> - Integrated the model in Flask for real-time interaction. |
-| **케네스 예라슬**      | Machine Learning Engineer      | - Designed and trained the U-Net model, ensuring generalization. <br> - Handled model integration and security features for secure file handling and account management. |
-| **누가예바 알트나이** | Data Scientist & Frontend Dev  | - Prepared and augmented MRI data. <br> - Evaluated model performance with benchmark metrics. <br> - Developed the front-end interface for file uploads, results viewing, and profiles. |
-
-Each member’s contributions were vital to building an effective, user-friendly segmentation platform suitable for clinical and research use.
+| **Name**                   | **Role**                       | **Key Responsibilities**                                                                                                                                              |
+|----------------------------|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Islam Salikh (이슬람 살리흐)**     | Data Engineer & Backend Dev    | - Preprocessed and visualized MRI data for training. <br> - Implemented post-processing for cleaner segmentation output. <br> - Integrated the model in Flask for real-time interaction. |
+| **Kenes Yerassyl (케네스 예라슬)** | Machine Learning Engineer      | - Designed and trained the U-Net model, ensuring generalization. <br> - Handled model integration and security features for secure file handling and account management. |
+| **Nugayeva Altynay (누가예바 알트나이)** | Data Scientist & Frontend Dev  | - Prepared and augmented MRI data. <br> - Evaluated model performance with benchmark metrics. <br> - Developed the front-end interface for file uploads, results viewing, and profiles. |
 
 
