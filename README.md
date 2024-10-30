@@ -45,8 +45,10 @@ This architecture is optimized to handle large datasets, multi-center imaging va
    ```
 
 2. **Download and place the pre-trained models**:
+   - The model creation code is available in our repository: [https://github.com/KenesYerassyl/cyber-model](https://github.com/KenesYerassyl/cyber-model).
    - Download the model files from [Google Drive](https://drive.google.com/file/d/1nzAk1xfFLaEDYO809oWYlEEtEE9z1PaK/view?usp=sharing).
    - Move the downloaded models to the `models` directory in the project folder.
+
 
 3. **Install required libraries**:
    ```bash
